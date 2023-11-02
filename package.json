@@ -1,0 +1,30 @@
+{
+  "name": "cashflow",
+  "version": "1.0.0",
+  "description": "Cashflow Manager",
+  "main": "main.js",
+  "scripts": {
+    "start": "node main.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nitinsharmacs/cashflow-manager.git"
+  },
+  "keywords": [
+    "cashflow",
+    "money",
+    "sheets"
+  ],
+  "author": "Nitin",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nitinsharmacs/cashflow-manager/issues"
+  },
+  "homepage": "https://github.com/nitinsharmacs/cashflow-manager#readme",
+  "dependencies": {
+    "express": "^4.18.2",
+    "googleapis": "^128.0.0",
+    "morgan": "^1.10.0"
+  }
+}

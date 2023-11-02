@@ -1,7 +1,7 @@
 const createApp = require('./src/app');
 
-const main = () => {
-  const app = createApp();
+const main = async () => {
+  const app = await createApp();
 
   const PORT = 3000 || process.env.PORT;
   app.listen(PORT, () => {

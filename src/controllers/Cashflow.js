@@ -1,4 +1,5 @@
 const HttpStatus = require('../HttpStatus');
+const { validateNewEntryReq } = require('../validators/requestValidators');
 
 class CashflowController {
   #cashflowService;
@@ -13,7 +14,12 @@ class CashflowController {
   }
 
   async newEntry(req, res) {
+    if (!validateNewEntryReq(req.body)) {
+      return res.json({ status: HttpStatus.BAD_REQUEST });
+    }
+
     await this.#cashflowService.newEntry(req.body);
+
     res.json({ status: HttpStatus.CREATED });
   }
 }

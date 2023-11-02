@@ -4,6 +4,7 @@
   "description": "Cashflow Manager",
   "main": "main.js",
   "scripts": {
+    "prestart": "./bin/setupSecret.sh",
     "start": "node main.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },

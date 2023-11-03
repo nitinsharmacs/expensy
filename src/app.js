@@ -29,7 +29,7 @@ const createApp = async () => {
     )
   );
 
-  app.use(express.static('public'));
+  app.use('/', express.static('public'));
   return app;
 };
 

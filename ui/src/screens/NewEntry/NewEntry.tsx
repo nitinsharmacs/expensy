@@ -9,14 +9,14 @@ import {
 } from '@mui/material';
 
 import './newentry.css';
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 
 type Category = {
   label: string;
   value: string;
 };
 
-type FormState = {
+export type NewEntryState = { [key: string]: string | number } & {
   date: string;
   category: string;
   amount: number;
@@ -24,7 +24,7 @@ type FormState = {
 };
 
 export interface NewEntryProps {
-  onSubmit: (state: FormState) => void;
+  onSubmit: (state: NewEntryState) => void;
 }
 
 const categories: Category[] = [
@@ -32,14 +32,14 @@ const categories: Category[] = [
   { label: 'Travel', value: 'travel' },
 ];
 
-const getEntryState = (): FormState => ({
+const getEntryState = (): NewEntryState => ({
   date: new Date().toISOString().split('T')[0],
   category: categories[0].value,
   amount: 0,
-  comment: 'Purchased a chocholate',
+  comment: '',
 });
 
-const NewEntry = (props: NewEntryProps) => {
+const NewEntry = ({ onSubmit }: NewEntryProps) => {
   const [formState, setFormState] = useState(getEntryState());
 
   const onFormUpdate = (
@@ -49,13 +49,18 @@ const NewEntry = (props: NewEntryProps) => {
       | SelectChangeEvent<string>
   ) => {
     setFormState((prevState) => {
-      const state: FormState = { ...prevState };
+      const state: NewEntryState = { ...prevState };
 
       state[fieldName] = e.target.value;
 
       return state;
     });
   };
+
+  const submit = useCallback(() => {
+    onSubmit(formState);
+    setFormState(getEntryState());
+  }, [formState, onSubmit]);
 
   return (
     <div className='new_entry_page'>
@@ -71,6 +76,7 @@ const NewEntry = (props: NewEntryProps) => {
           id='date'
           value={formState['date']}
           onChange={(e) => onFormUpdate('date', e)}
+          autoFocus
         />
         <FormControl fullWidth>
           <InputLabel id='category-label'>Category</InputLabel>
@@ -110,7 +116,7 @@ const NewEntry = (props: NewEntryProps) => {
           value={formState['comment']}
           onChange={(e) => onFormUpdate('comment', e)}
         />
-        <Button variant='contained' onClick={() => props.onSubmit(formState)}>
+        <Button variant='contained' onClick={submit}>
           Send
         </Button>
       </form>

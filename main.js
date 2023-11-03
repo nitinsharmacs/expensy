@@ -1,7 +1,9 @@
 const createApp = require('./src/app');
 
 const main = async () => {
-  const app = await createApp();
+  const sheetId = process.env.SHEET_ID;
+
+  const app = await createApp({ sheetId });
 
   const PORT = 3000 || process.env.PORT;
   app.listen(PORT, () => {

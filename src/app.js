@@ -8,7 +8,7 @@ const CashflowService = require('./services/CashflowService');
 const GoogleSheetsService = require('./services/GoogleSheetsService');
 const GoogleSheetsClient = require('./GoogleSheetsClient.js');
 
-const createApp = async () => {
+const createApp = async ({ sheetId }) => {
   const app = express();
 
   app.use(morgan('tiny'));
@@ -20,11 +20,7 @@ const createApp = async () => {
   app.use(
     CashflowRouter(
       new CashflowController(
-        new CashflowService(
-          new GoogleSheetsService(
-            '1NeoSls-2bIA8G-AC7F0vchw1GMXVc2G9aKHEMHJqz-o'
-          )
-        )
+        new CashflowService(new GoogleSheetsService(sheetId))
       )
     )
   );

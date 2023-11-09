@@ -7,8 +7,11 @@ const CashflowController = require('./controllers/Cashflow');
 const CashflowService = require('./services/CashflowService');
 const GoogleSheetsService = require('./services/GoogleSheetsService');
 const GoogleSheetsClient = require('./GoogleSheetsClient.js');
+const AuthRouter = require('./routes/Auth');
+const AuthController = require('./controllers/auth');
+const AuthService = require('./services/AuthService');
 
-const createApp = async ({ sheetId }) => {
+const createApp = async ({ sheetId, credentials }) => {
   const app = express();
 
   app.use(morgan('tiny'));
@@ -24,6 +27,11 @@ const createApp = async ({ sheetId }) => {
         new CashflowService(new GoogleSheetsService(sheetId))
       )
     )
+  );
+
+  app.use(
+    '/api/auth',
+    AuthRouter(new AuthController(new AuthService(credentials)))
   );
 
   app.use('/', express.static('public'));

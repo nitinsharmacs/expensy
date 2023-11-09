@@ -21,12 +21,15 @@ const App = () => {
   const [categories, setCategories] = useState<Category[]>([]);
 
   useEffect(() => {
+    if (!logined) {
+      return;
+    }
     setLoading(true);
     CashflowService.fetchCategories().then((expenseCategories) => {
       setCategories(expenseCategories);
       setLoading(false);
     });
-  }, []);
+  }, [logined]);
 
   const submitHandler = useCallback(async (state: NewEntryState) => {
     const entry = { ...state };

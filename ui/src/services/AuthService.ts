@@ -2,7 +2,7 @@ import { LoginFormState } from '../screens/Login/Login';
 
 class AuthService {
   static login(loginCredentials: LoginFormState): Promise<Response> {
-    return fetch('/api/login', {
+    return fetch('/api/auth/login', {
       method: 'POST',
       headers: { 'content-type': 'application/json' },
       body: JSON.stringify(loginCredentials),

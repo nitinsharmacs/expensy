@@ -1,7 +1,13 @@
-import { Alert, Snackbar } from '@mui/material';
+import { Alert, AlertColor, Snackbar } from '@mui/material';
 import { useState } from 'react';
 
-const ToastCard = ({ message }: { message: string }) => {
+const ToastCard = ({
+  message,
+  severity,
+}: {
+  message: string;
+  severity: AlertColor;
+}) => {
   const [open, setOpen] = useState(true);
 
   const handleClose = () => {
@@ -10,7 +16,7 @@ const ToastCard = ({ message }: { message: string }) => {
 
   return (
     <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
-      <Alert severity='success' sx={{ width: '100%' }}>
+      <Alert severity={severity} sx={{ width: '100%' }}>
         {message}
       </Alert>
     </Snackbar>

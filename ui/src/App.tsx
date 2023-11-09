@@ -5,7 +5,8 @@ import CashflowService from './services/CashflowService';
 import Loader from './components/Loader/Loader';
 import ToastBoard from './components/ToastBoard/ToastBoard';
 import Toast from './Toast';
-import Login from './screens/Login/Login';
+import Login, { LoginFormState } from './screens/Login/Login';
+import AuthService from './services/AuthService';
 
 // yyyy-mm-dd => mm/dd/yyy
 const format = (date: string) => {
@@ -15,6 +16,8 @@ const format = (date: string) => {
 
 const App = () => {
   const [loading, setLoading] = useState(false);
+  const [logined, setLogined] = useState(false);
+
   const [categories, setCategories] = useState<Category[]>([]);
 
   useEffect(() => {
@@ -36,11 +39,28 @@ const App = () => {
     Toast.insert('Created new entry successfully');
   }, []);
 
+  const loginHandler = useCallback(async (loginCredentials: LoginFormState) => {
+    setLoading(true);
+    try {
+      await AuthService.login(loginCredentials);
+    } catch {
+      Toast.insertRed('Login failed, try again!');
+      setLoading(false);
+      return;
+    }
+
+    setLoading(false);
+    setLogined(true);
+  }, []);
   return (
     <div>
       {loading ? <Loader /> : <></>}
-      {/* <NewEntry onSubmit={submitHandler} categories={categories} /> */}
-      <Login />
+
+      {logined ? (
+        <NewEntry onSubmit={submitHandler} categories={categories} />
+      ) : (
+        <Login onLogin={loginHandler} />
+      )}
       <ToastBoard />
     </div>
   );

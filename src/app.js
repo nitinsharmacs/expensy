@@ -8,7 +8,7 @@ const CashflowService = require('./services/CashflowService');
 const GoogleSheetsService = require('./services/GoogleSheetsService');
 const GoogleSheetsClient = require('./GoogleSheetsClient.js');
 const AuthRouter = require('./routes/Auth');
-const AuthController = require('./controllers/auth');
+const AuthController = require('./controllers/Auth');
 const AuthService = require('./services/AuthService');
 
 const createApp = async ({ sheetId, credentials }) => {

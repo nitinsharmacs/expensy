@@ -2,8 +2,11 @@ const { google } = require('googleapis');
 
 class GoogleSheetsClient {
   static client;
+  static #keyFile;
 
   static async create(keyFile) {
+    GoogleSheetsClient.#keyFile = keyFile;
+
     console.info('Creating google spreadsheet client');
 
     const auth = new google.auth.GoogleAuth({
@@ -17,7 +20,11 @@ class GoogleSheetsClient {
 
     console.info('Google spreadsheet client is created');
   }
-  static getClient() {
+  static async getClient() {
+    if (GoogleSheetsClient.client === null) {
+      return await GoogleSheetsClient.create(GoogleSheetsClient.#keyFile);
+    }
+
     return GoogleSheetsClient.client;
   }
 }

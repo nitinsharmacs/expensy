@@ -7,6 +7,8 @@ const CashflowRouter = (cashflowController) => {
 
   cashflowRoutes.post('/entry', cashflowController.newEntry);
 
+  cashflowRoutes.get('/categories', cashflowController.getCategories);
+
   return cashflowRoutes;
 };
 

@@ -1,7 +1,7 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import './App.css';
-import NewEntry, { NewEntryState } from './screens/NewEntry/NewEntry';
-import NewEntryService from './services/newEntry';
+import NewEntry, { Category, NewEntryState } from './screens/NewEntry/NewEntry';
+import CashflowService from './services/CashflowService';
 import Loader from './components/Loader/Loader';
 import ToastBoard from './components/ToastBoard/ToastBoard';
 import Toast from './Toast';
@@ -14,13 +14,22 @@ const format = (date: string) => {
 
 const App = () => {
   const [loading, setLoading] = useState(false);
+  const [categories, setCategories] = useState<Category[]>([]);
+
+  useEffect(() => {
+    setLoading(true);
+    CashflowService.fetchCategories().then((expenseCategories) => {
+      setCategories(expenseCategories);
+      setLoading(false);
+    });
+  }, []);
 
   const submitHandler = useCallback(async (state: NewEntryState) => {
     const entry = { ...state };
     entry['date'] = format(entry['date']);
 
     setLoading(true);
-    await NewEntryService.create(entry);
+    await CashflowService.create(entry);
     setLoading(false);
 
     Toast.insert('Created new entry successfully');
@@ -29,7 +38,7 @@ const App = () => {
   return (
     <div>
       {loading ? <Loader /> : <></>}
-      <NewEntry onSubmit={submitHandler} />
+      <NewEntry onSubmit={submitHandler} categories={categories} />
       <ToastBoard />
     </div>
   );

@@ -9,12 +9,9 @@ import {
 } from '@mui/material';
 
 import './newentry.css';
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
-type Category = {
-  label: string;
-  value: string;
-};
+export type Category = string;
 
 export type NewEntryState = { [key: string]: string | number } & {
   date: string;
@@ -25,22 +22,22 @@ export type NewEntryState = { [key: string]: string | number } & {
 
 export interface NewEntryProps {
   onSubmit: (state: NewEntryState) => void;
+  categories: Category[];
 }
 
-const categories: Category[] = [
-  { label: 'Health', value: 'health' },
-  { label: 'Travel', value: 'travel' },
-];
-
-const getEntryState = (): NewEntryState => ({
+const getEntryState = (categories: Category[]): NewEntryState => ({
   date: new Date().toISOString().split('T')[0],
-  category: categories[0].value,
+  category: categories[0] || '',
   amount: 0,
   comment: '',
 });
 
-const NewEntry = ({ onSubmit }: NewEntryProps) => {
-  const [formState, setFormState] = useState(getEntryState());
+const NewEntry = ({ onSubmit, categories }: NewEntryProps) => {
+  const [formState, setFormState] = useState(getEntryState(categories));
+
+  useEffect(() => {
+    setFormState(getEntryState(categories));
+  }, [categories]);
 
   const onFormUpdate = (
     fieldName: string,
@@ -59,8 +56,8 @@ const NewEntry = ({ onSubmit }: NewEntryProps) => {
 
   const submit = useCallback(() => {
     onSubmit(formState);
-    setFormState(getEntryState());
-  }, [formState, onSubmit]);
+    setFormState(getEntryState(categories));
+  }, [formState, onSubmit, categories]);
 
   return (
     <div className='new_entry_page'>
@@ -87,9 +84,9 @@ const NewEntry = ({ onSubmit }: NewEntryProps) => {
             value={formState['category']}
             onChange={(e) => onFormUpdate('category', e)}
           >
-            {categories.map(({ value, label }: Category) => (
-              <MenuItem key={label} value={value}>
-                {label}
+            {categories.map((category: Category) => (
+              <MenuItem key={category} value={category}>
+                {category}
               </MenuItem>
             ))}
           </Select>

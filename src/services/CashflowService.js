@@ -10,6 +10,11 @@ class CashflowService {
       [date, category, amount, comment],
     ]);
   }
+
+  async getCategories() {
+    const categories = await this.#googleSheetsService.getCategories();
+    return categories.flatMap((category) => category);
+  }
 }
 
 module.exports = CashflowService;

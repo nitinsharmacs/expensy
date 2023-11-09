@@ -18,6 +18,7 @@ const createApp = async ({ sheetId }) => {
   await GoogleSheetsClient.create('secrets/cred.json');
 
   app.use(
+    '/api',
     CashflowRouter(
       new CashflowController(
         new CashflowService(new GoogleSheetsService(sheetId))

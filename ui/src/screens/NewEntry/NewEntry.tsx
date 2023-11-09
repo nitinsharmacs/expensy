@@ -8,8 +8,9 @@ import {
   TextField,
 } from '@mui/material';
 
-import './newentry.css';
 import { useCallback, useEffect, useState } from 'react';
+import Page from '../../components/Page/Page';
+import Form from '../../components/Form/Form';
 
 export type Category = string;
 
@@ -60,12 +61,8 @@ const NewEntry = ({ onSubmit, categories }: NewEntryProps) => {
   }, [formState, onSubmit, categories]);
 
   return (
-    <div className='new_entry_page'>
-      <header>
-        <h2>New Entry</h2>
-      </header>
-
-      <form className='new_entry_form' action=''>
+    <Page>
+      <Form title='New Entry'>
         <TextField
           fullWidth
           name='date'
@@ -116,8 +113,8 @@ const NewEntry = ({ onSubmit, categories }: NewEntryProps) => {
         <Button variant='contained' onClick={submit}>
           Send
         </Button>
-      </form>
-    </div>
+      </Form>
+    </Page>
   );
 };
 

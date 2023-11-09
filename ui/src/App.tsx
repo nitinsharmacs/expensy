@@ -5,6 +5,7 @@ import CashflowService from './services/CashflowService';
 import Loader from './components/Loader/Loader';
 import ToastBoard from './components/ToastBoard/ToastBoard';
 import Toast from './Toast';
+import Login from './screens/Login/Login';
 
 // yyyy-mm-dd => mm/dd/yyy
 const format = (date: string) => {
@@ -38,7 +39,8 @@ const App = () => {
   return (
     <div>
       {loading ? <Loader /> : <></>}
-      <NewEntry onSubmit={submitHandler} categories={categories} />
+      {/* <NewEntry onSubmit={submitHandler} categories={categories} /> */}
+      <Login />
       <ToastBoard />
     </div>
   );

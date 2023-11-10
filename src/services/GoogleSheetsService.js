@@ -12,7 +12,7 @@ class GoogleSheetsService {
 
     await client.spreadsheets.values.append({
       spreadsheetId: this.spreadsheetId,
-      range: 'Sheet1!A:D',
+      range: 'Daily Expenses!A:D',
       valueInputOption: 'USER_ENTERED',
       resource: {
         values,
@@ -27,7 +27,7 @@ class GoogleSheetsService {
 
     const response = await client.spreadsheets.values.get({
       spreadsheetId: this.spreadsheetId,
-      range: 'categories!A2:A',
+      range: 'Expense Division!A2:A',
     });
 
     return response.data.values;

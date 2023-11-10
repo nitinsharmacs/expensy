@@ -1,6 +1,7 @@
 const express = require('express');
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
+const session = require('express-session');
 
 const CashflowRouter = require('./routes/Cashflow');
 const CashflowController = require('./controllers/Cashflow');
@@ -10,9 +11,19 @@ const GoogleSheetsClient = require('./GoogleSheetsClient.js');
 const AuthRouter = require('./routes/Auth');
 const AuthController = require('./controllers/Auth');
 const AuthService = require('./services/AuthService');
+const authInterceptor = require('./controllers/authInterceptor');
 
-const createApp = async ({ sheetId, credentials }) => {
+const createApp = async ({ sheetId, credentials, sessionConfig }) => {
   const app = express();
+
+  app.use(
+    session({
+      secret: sessionConfig.secret,
+      resave: false,
+      saveUninitialized: false,
+      cookie: { secure: true, httpOnly: true },
+    })
+  );
 
   app.use(morgan('tiny'));
 
@@ -21,17 +32,18 @@ const createApp = async ({ sheetId, credentials }) => {
   await GoogleSheetsClient.create('secrets/cred.json');
 
   app.use(
+    '/api/auth',
+    AuthRouter(new AuthController(new AuthService(credentials)))
+  );
+
+  app.use(
     '/api',
+    authInterceptor,
     CashflowRouter(
       new CashflowController(
         new CashflowService(new GoogleSheetsService(sheetId))
       )
     )
-  );
-
-  app.use(
-    '/api/auth',
-    AuthRouter(new AuthController(new AuthService(credentials)))
   );
 
   app.use('/', express.static('public'));

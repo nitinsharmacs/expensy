@@ -21,7 +21,7 @@ const createApp = async ({ sheetId, credentials, sessionConfig }) => {
       secret: sessionConfig.secret,
       resave: false,
       saveUninitialized: false,
-      cookie: { secure: true, httpOnly: true },
+      cookie: { secure: false, httpOnly: true },
     })
   );
 

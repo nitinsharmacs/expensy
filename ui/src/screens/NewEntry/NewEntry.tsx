@@ -1,6 +1,7 @@
 import {
   Button,
   FormControl,
+  IconButton,
   InputLabel,
   MenuItem,
   Select,
@@ -8,9 +9,12 @@ import {
   TextField,
 } from '@mui/material';
 
+import HistoryIcon from '@mui/icons-material/History';
+
 import { useCallback, useEffect, useState } from 'react';
 import Page from '../../components/Page/Page';
 import Form from '../../components/Form/Form';
+import RecentEntries from '../RecentEntries/RecentEntries';
 
 export type Category = string;
 
@@ -35,6 +39,7 @@ const getEntryState = (categories: Category[]): NewEntryState => ({
 
 const NewEntry = ({ onSubmit, categories }: NewEntryProps) => {
   const [formState, setFormState] = useState(getEntryState(categories));
+  const [openRecentEntries, setOpenRecentEntries] = useState(false);
 
   useEffect(() => {
     setFormState(getEntryState(categories));
@@ -60,8 +65,16 @@ const NewEntry = ({ onSubmit, categories }: NewEntryProps) => {
     setFormState(getEntryState(categories));
   }, [formState, onSubmit, categories]);
 
+  const openRecentEntriesHandler = useCallback(() => {
+    setOpenRecentEntries(true);
+  }, []);
+
   return (
     <Page>
+      <RecentEntries
+        open={openRecentEntries}
+        close={() => setOpenRecentEntries(false)}
+      />
       <Form title='New Entry'>
         <TextField
           fullWidth
@@ -113,6 +126,13 @@ const NewEntry = ({ onSubmit, categories }: NewEntryProps) => {
         <Button variant='contained' onClick={submit}>
           Send
         </Button>
+        <IconButton
+          sx={{ position: 'fixed', bottom: '10px', right: '10px' }}
+          title='Open Recent Entries'
+          onClick={openRecentEntriesHandler}
+        >
+          <HistoryIcon />
+        </IconButton>
       </Form>
     </Page>
   );

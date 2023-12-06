@@ -1,3 +1,4 @@
+import { RecentEntryItemProps } from '../components/RecentEntryItem/RecentEntryItem';
 import { Category, NewEntryState } from '../screens/NewEntry/NewEntry';
 
 class CashflowService {
@@ -19,6 +20,18 @@ class CashflowService {
         return res.json();
       })
       .then((res) => res.categories);
+  }
+
+  static getRecentEntries(): Promise<RecentEntryItemProps[]> {
+    return fetch('/api/recent-entries')
+      .then((res) => {
+        if (res.status !== 200) {
+          return { entries: [] };
+        }
+
+        return res.json();
+      })
+      .then((res) => res.json());
   }
 }
 

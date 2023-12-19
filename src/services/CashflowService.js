@@ -15,6 +15,17 @@ class CashflowService {
     const categories = await this.#googleSheetsService.getCategories();
     return categories.flatMap((category) => category);
   }
+
+  async getRecentEntries() {
+    const entries = await this.#googleSheetsService.getRecentEntries();
+
+    return entries.map(([date, category, amount, description]) => ({
+      date,
+      category,
+      amount,
+      description,
+    }));
+  }
 }
 
 module.exports = CashflowService;

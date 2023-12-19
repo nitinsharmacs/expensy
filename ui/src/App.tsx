@@ -16,7 +16,7 @@ const format = (date: string) => {
 
 const App = () => {
   const [loading, setLoading] = useState(false);
-  const [logined, setLogined] = useState(false);
+  const [logined, setLogined] = useState(true);
 
   const [categories, setCategories] = useState<Category[]>([]);
 

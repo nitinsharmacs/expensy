@@ -14,6 +14,7 @@ import RecentEntryItem, {
   RecentEntryItemProps,
 } from '../../components/RecentEntryItem/RecentEntryItem';
 import CashflowService from '../../services/CashflowService';
+import Loader from '../../components/Loader/Loader';
 
 const Transition = React.forwardRef(function Transition(
   props: TransitionProps & {
@@ -29,25 +30,29 @@ interface RecentEntriesProps {
   close: () => void;
 }
 
-const useRecentEntries = () => {
+const useRecentEntries = (open: boolean): [RecentEntryItemProps[], boolean] => {
   const [entries, setEntries] = useState<RecentEntryItemProps[]>([]);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const getRecentEntries = async () => {
+      setLoading(true);
+      setEntries([]);
       const recentEntries: RecentEntryItemProps[] =
         await CashflowService.getRecentEntries();
 
+      setLoading(false);
       setEntries(recentEntries);
     };
 
-    getRecentEntries();
-  }, []);
+    if (open) getRecentEntries();
+  }, [open]);
 
-  return [entries];
+  return [entries, loading];
 };
 
 const RecentEntries = ({ close, open }: RecentEntriesProps) => {
-  const [entries] = useRecentEntries();
+  const [entries, loading] = useRecentEntries(open);
 
   return (
     <div>
@@ -68,11 +73,12 @@ const RecentEntries = ({ close, open }: RecentEntriesProps) => {
           </Toolbar>
         </AppBar>
         <List>
-          {entries?.map((entry) => (
+          {entries?.reverse().map((entry) => (
             <RecentEntryItem {...entry} />
           ))}
         </List>
       </Dialog>
+      {loading ? <Loader /> : <></>}
     </div>
   );
 };

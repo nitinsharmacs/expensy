@@ -9,6 +9,8 @@ const CashflowRouter = (cashflowController) => {
 
   cashflowRoutes.get('/categories', cashflowController.getCategories);
 
+  cashflowRoutes.get('/recent-entries', cashflowController.getRecentEntries);
+
   return cashflowRoutes;
 };
 

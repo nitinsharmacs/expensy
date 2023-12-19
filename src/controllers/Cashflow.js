@@ -8,6 +8,7 @@ class CashflowController {
     this.read = this.read.bind(this);
     this.newEntry = this.newEntry.bind(this);
     this.getCategories = this.getCategories.bind(this);
+    this.getRecentEntries = this.getRecentEntries.bind(this);
   }
 
   async read(_, res) {
@@ -26,7 +27,14 @@ class CashflowController {
 
   async getCategories(_, res) {
     const categories = await this.#cashflowService.getCategories();
+
     res.status(200).json({ status: HttpStatus.OK, categories });
+  }
+
+  async getRecentEntries(_, res) {
+    const entries = await this.#cashflowService.getRecentEntries();
+
+    res.status(200).json({ status: HttpStatus.OK, entries });
   }
 }
 

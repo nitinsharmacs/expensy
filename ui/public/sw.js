@@ -5,11 +5,7 @@ self.addEventListener('install', (e) => {
   e.waitUntil(
     caches
       .open(CACHE_NAME)
-      .then((cache) =>
-        cache
-          .addAll(['/', '/index.html', 'assets/index-3b669906.js'])
-          .then(() => self.skipWaiting())
-      )
+      .then((cache) => cache.addAll(['/']).then(() => self.skipWaiting()))
   );
 });
 

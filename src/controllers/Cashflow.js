@@ -7,6 +7,7 @@ class CashflowController {
     this.#cashflowService = cashflowService;
     this.read = this.read.bind(this);
     this.newEntry = this.newEntry.bind(this);
+    this.insertEntries = this.insertEntries.bind(this);
     this.getCategories = this.getCategories.bind(this);
     this.getRecentEntries = this.getRecentEntries.bind(this);
   }
@@ -22,6 +23,11 @@ class CashflowController {
 
     await this.#cashflowService.newEntry(req.body);
 
+    res.json({ status: HttpStatus.CREATED });
+  }
+
+  async insertEntries(req, res) {
+    await this.#cashflowService.insertEntries(req.body);
     res.json({ status: HttpStatus.CREATED });
   }
 

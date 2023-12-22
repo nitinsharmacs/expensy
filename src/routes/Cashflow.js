@@ -7,6 +7,8 @@ const CashflowRouter = (cashflowController) => {
 
   cashflowRoutes.post('/entry', cashflowController.newEntry);
 
+  cashflowRoutes.post('/entries', cashflowController.insertEntries);
+
   cashflowRoutes.get('/categories', cashflowController.getCategories);
 
   cashflowRoutes.get('/recent-entries', cashflowController.getRecentEntries);

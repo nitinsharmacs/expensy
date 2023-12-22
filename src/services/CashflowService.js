@@ -11,6 +11,17 @@ class CashflowService {
     ]);
   }
 
+  insertEntries(entries) {
+    return this.#googleSheetsService.insert(
+      entries.map(({ date, category, amount, comment }) => [
+        date,
+        category,
+        amount,
+        comment,
+      ])
+    );
+  }
+
   async getCategories() {
     const categories = await this.#googleSheetsService.getCategories();
     return categories.flatMap((category) => category);

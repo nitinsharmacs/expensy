@@ -13,8 +13,8 @@ import React, { useEffect, useState } from 'react';
 import RecentEntryItem, {
   RecentEntryItemProps,
 } from '../../components/RecentEntryItem/RecentEntryItem';
-import CashflowService from '../../services/CashflowService';
 import Loader from '../../components/Loader/Loader';
+import CashflowAPIService from '../../services/CashflowAPIService';
 
 const Transition = React.forwardRef(function Transition(
   props: TransitionProps & {
@@ -39,7 +39,7 @@ const useRecentEntries = (open: boolean): [RecentEntryItemProps[], boolean] => {
       setLoading(true);
       setEntries([]);
       const recentEntries: RecentEntryItemProps[] =
-        await CashflowService.getRecentEntries();
+        await CashflowAPIService.getRecentEntries();
 
       setLoading(false);
       setEntries(recentEntries);

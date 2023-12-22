@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import './App.css';
 import NewEntry, { Category, NewEntryState } from './screens/NewEntry/NewEntry';
+import CashflowAPIService from './services/CashflowAPIService';
 import CashflowService from './services/CashflowService';
 import Loader from './components/Loader/Loader';
 import ToastBoard from './components/ToastBoard/ToastBoard';
@@ -22,8 +23,6 @@ const App = () => {
 
   useEffect(() => {
     if (AuthService.isLogined()) {
-      console.log('afas');
-
       setLogined(true);
     }
   }, []);
@@ -33,7 +32,7 @@ const App = () => {
       return;
     }
     setLoading(true);
-    CashflowService.fetchCategories().then((expenseCategories) => {
+    CashflowAPIService.fetchCategories().then((expenseCategories) => {
       setCategories(expenseCategories);
       setLoading(false);
     });
@@ -44,10 +43,15 @@ const App = () => {
     entry['date'] = format(entry['date']);
 
     setLoading(true);
-    await CashflowService.create(entry);
-    setLoading(false);
 
-    Toast.insert('Created new entry successfully');
+    try {
+      await CashflowService.create(entry);
+      Toast.insert('Created new entry successfully');
+    } catch (err) {
+      Toast.insertRed('Inserting new entry failed, please try again!');
+    } finally {
+      setLoading(false);
+    }
   }, []);
 
   const loginHandler = useCallback(async (loginCredentials: LoginFormState) => {

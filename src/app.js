@@ -31,6 +31,10 @@ const createApp = async ({ sheetId, credentials, sessionConfig }) => {
 
   await GoogleSheetsClient.create('secrets/cred.json');
 
+  app.get('/ping', (req, res) => {
+    res.send('PONG');
+  });
+
   app.use(
     '/api/auth',
     AuthRouter(new AuthController(new AuthService(credentials)))

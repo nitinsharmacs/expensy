@@ -1,37 +1,20 @@
-import { RecentEntryItemProps } from '../components/RecentEntryItem/RecentEntryItem';
-import { Category, NewEntryState } from '../screens/NewEntry/NewEntry';
+import { NewEntryState } from '../screens/NewEntry/NewEntry';
+import BufferManager from './BufferManager';
+import CashflowAPIService from './CashflowAPIService';
+import CashflowLoop from './CashflowLoop';
+import Server from './Server';
 
 class CashflowService {
-  static create(newEntry: NewEntryState): Promise<Response> {
-    return fetch('/api/entry', {
-      method: 'POST',
-      headers: { 'content-type': 'application/json' },
-      body: JSON.stringify(newEntry),
-    });
-  }
+  static async create(newEntry: NewEntryState): Promise<Response> {
+    if (await Server.isSleeping()) {
+      BufferManager.add('entries', newEntry);
 
-  static fetchCategories(): Promise<Category[]> {
-    return fetch('/api/categories')
-      .then((res) => {
-        if (res.status !== 200) {
-          return { categories: [] };
-        }
+      CashflowLoop.start();
 
-        return res.json();
-      })
-      .then((res) => res.categories);
-  }
+      return Promise.resolve(new Response());
+    }
 
-  static getRecentEntries(): Promise<RecentEntryItemProps[]> {
-    return fetch('/api/recent-entries')
-      .then((res) => {
-        if (res.status !== 200) {
-          return { entries: [] };
-        }
-
-        return res.json();
-      })
-      .then((res) => res.entries);
+    return CashflowAPIService.postEntry(newEntry);
   }
 }
 

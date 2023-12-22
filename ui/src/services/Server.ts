@@ -1,9 +1,5 @@
 class Server {
-  private static active: boolean = false;
-
   static ping(): Promise<Response> {
-    console.log('piging');
-
     return fetch('/ping');
   }
 

@@ -21,6 +21,14 @@ const App = () => {
   const [categories, setCategories] = useState<Category[]>([]);
 
   useEffect(() => {
+    if (AuthService.isLogined()) {
+      console.log('afas');
+
+      setLogined(true);
+    }
+  }, []);
+
+  useEffect(() => {
     if (!logined) {
       return;
     }

@@ -11,8 +11,17 @@ class AuthService {
         throw new Error('Login failed');
       }
 
+      AuthService.save();
       return res.json();
     });
+  }
+
+  static isLogined(): boolean {
+    return localStorage.getItem('authenticated') ? true : false;
+  }
+
+  private static save(): void {
+    localStorage.setItem('authenticated', 'true');
   }
 }
 

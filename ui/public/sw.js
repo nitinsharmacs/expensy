@@ -15,27 +15,27 @@ self.addEventListener('activate', (e) => {
 });
 
 self.addEventListener('fetch', (e) => {
-  if (!navigator.onLine) {
-    return e.respondWith(
-      caches.match(e.request).then((response) => {
-        if (response) {
-          return response;
-        }
-      })
-    );
-  }
-
   const req = e.request.clone();
 
-  return fetch(req).then((res) => {
-    if (res.status !== 200 || res.type !== 'basic') {
-      return res;
-    }
+  e.respondWith(
+    fetch(req)
+      .then((res) => {
+        if (res.status !== 200 || res.type !== 'basic') {
+          return res;
+        }
 
-    const cacheRes = res.clone();
+        const cacheRes = res.clone();
 
-    caches.open(CACHE_NAME).then((cache) => cache.put(e.request, cacheRes));
+        caches.open(CACHE_NAME).then((cache) => cache.put(e.request, cacheRes));
 
-    return res;
-  });
+        return res;
+      })
+      .catch(() =>
+        caches.match(e.request).then((response) => {
+          if (response) {
+            return response;
+          }
+        })
+      )
+  );
 });

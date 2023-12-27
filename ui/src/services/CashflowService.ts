@@ -4,17 +4,25 @@ import CashflowAPIService from './CashflowAPIService';
 import CashflowLoop from './CashflowLoop';
 import Server from './Server';
 
+const bufferAndStartLoop = (newEntry: NewEntryState): Promise<Response> => {
+  BufferManager.add('entries', newEntry);
+
+  CashflowLoop.start();
+
+  return Promise.resolve(new Response());
+};
+
 class CashflowService {
   static async create(newEntry: NewEntryState): Promise<Response> {
-    if (await Server.isSleeping()) {
-      BufferManager.add('entries', newEntry);
+    try {
+      if (await Server.isSleeping()) {
+        return bufferAndStartLoop(newEntry);
+      }
 
-      CashflowLoop.start();
-
-      return Promise.resolve(new Response());
+      return CashflowAPIService.postEntry(newEntry);
+    } catch (err) {
+      return bufferAndStartLoop(newEntry);
     }
-
-    return CashflowAPIService.postEntry(newEntry);
   }
 }
 

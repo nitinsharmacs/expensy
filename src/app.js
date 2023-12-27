@@ -11,7 +11,6 @@ const GoogleSheetsClient = require('./GoogleSheetsClient.js');
 const AuthRouter = require('./routes/Auth');
 const AuthController = require('./controllers/Auth');
 const AuthService = require('./services/AuthService');
-const authInterceptor = require('./controllers/authInterceptor');
 
 const createApp = async ({ sheetId, credentials, sessionConfig }) => {
   const app = express();
@@ -42,7 +41,6 @@ const createApp = async ({ sheetId, credentials, sessionConfig }) => {
 
   app.use(
     '/api',
-    authInterceptor,
     CashflowRouter(
       new CashflowController(
         new CashflowService(new GoogleSheetsService(sheetId))

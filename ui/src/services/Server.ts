@@ -11,10 +11,12 @@ class Server {
         res(true);
       }, 3000);
 
-      Server.ping().then(() => {
-        clearTimeout(timeout);
-        res(false);
-      });
+      Server.ping()
+        .then(() => {
+          clearTimeout(timeout);
+          res(false);
+        })
+        .catch(() => res(true));
     });
   }
 }

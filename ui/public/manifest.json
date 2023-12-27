@@ -1,1 +1,27 @@
-{"name":"ui","short_name":"ui","start_url":"/","display":"standalone","background_color":"#ffffff","lang":"en","scope":"/"}
+{
+  "name": "Expense Recorder",
+  "short_name": "Record your every expense",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "skyblue",
+  "theme_color": "skyblue",
+  "lang": "en",
+  "scope": "/",
+  "icons": [
+    {
+      "src": "favicon.ico",
+      "sizes": "64x64 32x32 24x24 16x16",
+      "type": "image/x-icon"
+    },
+    {
+      "src": "logo192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "logo512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ]
+}

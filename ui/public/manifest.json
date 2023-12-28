@@ -1,6 +1,6 @@
 {
-  "name": "Expense Recorder",
-  "short_name": "Record your every expense",
+  "name": "Record your every expense",
+  "short_name": "Expensy",
   "start_url": "/",
   "display": "standalone",
   "background_color": "skyblue",

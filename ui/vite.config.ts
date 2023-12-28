@@ -46,7 +46,6 @@ export default defineConfig({
     outDir: 'build',
     assetsDir: 'static',
     sourcemap: true,
-    manifest: true,
     minify: true,
     emptyOutDir: true,
     copyPublicDir: true,

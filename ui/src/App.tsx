@@ -8,6 +8,7 @@ import ToastBoard from './components/ToastBoard/ToastBoard';
 import Toast from './Toast';
 import Login, { LoginFormState } from './screens/Login/Login';
 import AuthService from './services/AuthService';
+import PageBar from './components/PageBar/PageBar';
 
 // yyyy-mm-dd => mm/dd/yyy
 const format = (date: string) => {
@@ -67,12 +68,21 @@ const App = () => {
     setLoading(false);
     setLogined(true);
   }, []);
+
+  const logoutHandler = useCallback(async () => {
+    await AuthService.logout();
+    setLogined(false);
+  }, []);
+
   return (
     <div>
       {loading ? <Loader /> : <></>}
 
       {logined ? (
-        <NewEntry onSubmit={submitHandler} categories={categories} />
+        <>
+          <PageBar logout={logoutHandler} />
+          <NewEntry onSubmit={submitHandler} categories={categories} />
+        </>
       ) : (
         <Login onLogin={loginHandler} />
       )}

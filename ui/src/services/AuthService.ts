@@ -23,6 +23,14 @@ class AuthService {
   private static save(): void {
     localStorage.setItem('authenticated', 'true');
   }
+
+  private static remove(): void {
+    localStorage.removeItem('authenticated');
+  }
+
+  static logout(): Promise<void> {
+    return Promise.resolve(AuthService.remove());
+  }
 }
 
 export default AuthService;

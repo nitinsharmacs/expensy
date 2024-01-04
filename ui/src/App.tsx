@@ -9,6 +9,7 @@ import Toast from './Toast';
 import Login, { LoginFormState } from './screens/Login/Login';
 import AuthService from './services/AuthService';
 import PageBar from './components/PageBar/PageBar';
+import { useFetchCategories } from './hooks/Cashflow';
 
 // yyyy-mm-dd => mm/dd/yyy
 const format = (date: string) => {
@@ -20,24 +21,13 @@ const App = () => {
   const [loading, setLoading] = useState(false);
   const [logined, setLogined] = useState(false);
 
-  const [categories, setCategories] = useState<Category[]>([]);
-
   useEffect(() => {
     if (AuthService.isLogined()) {
       setLogined(true);
     }
   }, []);
 
-  useEffect(() => {
-    if (!logined) {
-      return;
-    }
-    setLoading(true);
-    CashflowAPIService.fetchCategories().then((expenseCategories) => {
-      setCategories(expenseCategories);
-      setLoading(false);
-    });
-  }, [logined]);
+  const { categories } = useFetchCategories(logined, setLoading);
 
   const submitHandler = useCallback(async (state: NewEntryState) => {
     const entry = { ...state };

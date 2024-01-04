@@ -15,20 +15,7 @@ import { useCallback, useEffect, useState } from 'react';
 import Page from '../../components/Page/Page';
 import Form from '../../components/Form/Form';
 import RecentEntries from '../RecentEntries/RecentEntries';
-
-export type Category = string;
-
-export type NewEntryState = { [key: string]: string | number } & {
-  date: string;
-  category: string;
-  amount: number;
-  comment: string;
-};
-
-export interface NewEntryProps {
-  onSubmit: (state: NewEntryState) => void;
-  categories: Category[];
-}
+import { NewEntryState, Category, NewEntryProps } from './NewEntry.types';
 
 const getEntryState = (categories: Category[]): NewEntryState => ({
   date: new Date().toISOString().split('T')[0],

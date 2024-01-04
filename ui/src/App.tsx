@@ -1,68 +1,30 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import './App.css';
-import NewEntry, { Category, NewEntryState } from './screens/NewEntry/NewEntry';
-import CashflowAPIService from './services/CashflowAPIService';
-import CashflowService from './services/CashflowService';
+import NewEntry from './screens/NewEntry/NewEntry';
 import Loader from './components/Loader/Loader';
 import ToastBoard from './components/ToastBoard/ToastBoard';
 import Toast from './Toast';
-import Login, { LoginFormState } from './screens/Login/Login';
-import AuthService from './services/AuthService';
+import Login from './screens/Login/Login';
 import PageBar from './components/PageBar/PageBar';
-import { useFetchCategories } from './hooks/Cashflow';
-
-// yyyy-mm-dd => mm/dd/yyy
-const format = (date: string) => {
-  const [year, month, day] = date.split('-');
-  return [month, day, year].join('/');
-};
+import { useFetchCategories, useInsertEntry } from './hooks/Cashflow';
+import { useLogin } from './hooks/Auth';
 
 const App = () => {
   const [loading, setLoading] = useState(false);
-  const [logined, setLogined] = useState(false);
-
-  useEffect(() => {
-    if (AuthService.isLogined()) {
-      setLogined(true);
-    }
-  }, []);
+  const { login, logout, logined, error: loginError } = useLogin(setLoading);
 
   const { categories } = useFetchCategories(logined, setLoading);
+  const {
+    error: entryError,
+    isSuccess,
+    insertEntry,
+  } = useInsertEntry(setLoading);
 
-  const submitHandler = useCallback(async (state: NewEntryState) => {
-    const entry = { ...state };
-    entry['date'] = format(entry['date']);
-
-    setLoading(true);
-
-    try {
-      await CashflowService.create(entry);
-      Toast.insert('Created new entry successfully');
-    } catch (err) {
-      Toast.insertRed('Inserting new entry failed, please try again!');
-    } finally {
-      setLoading(false);
-    }
-  }, []);
-
-  const loginHandler = useCallback(async (loginCredentials: LoginFormState) => {
-    setLoading(true);
-    try {
-      await AuthService.login(loginCredentials);
-    } catch {
-      Toast.insertRed('Login failed, try again!');
-      setLoading(false);
-      return;
-    }
-
-    setLoading(false);
-    setLogined(true);
-  }, []);
-
-  const logoutHandler = useCallback(async () => {
-    await AuthService.logout();
-    setLogined(false);
-  }, []);
+  useEffect(() => {
+    if (isSuccess) Toast.insert('Created new entry successfully');
+    if (loginError.isValid) Toast.insertRed(loginError.message);
+    if (entryError.isValid) Toast.insertRed(entryError.message);
+  }, [isSuccess, loginError, entryError]);
 
   return (
     <div>
@@ -70,11 +32,11 @@ const App = () => {
 
       {logined ? (
         <>
-          <PageBar logout={logoutHandler} />
-          <NewEntry onSubmit={submitHandler} categories={categories} />
+          <PageBar logout={logout} />
+          <NewEntry onSubmit={insertEntry} categories={categories} />
         </>
       ) : (
-        <Login onLogin={loginHandler} />
+        <Login onLogin={login} />
       )}
       <ToastBoard />
     </div>

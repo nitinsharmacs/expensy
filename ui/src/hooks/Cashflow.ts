@@ -1,6 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import CashflowAPIService from '../services/CashflowAPIService';
-import { Category } from '../screens/NewEntry/NewEntry.types';
+import { Category, NewEntryState } from '../screens/NewEntry/NewEntry.types';
+import CashflowService from '../services/CashflowService';
+import { Error } from '../Types';
 
 export const useFetchCategories = (
   logined: boolean,
@@ -21,4 +23,41 @@ export const useFetchCategories = (
   }, [logined, setLoading]);
 
   return { categories };
+};
+
+// yyyy-mm-dd => mm/dd/yyy
+const format = (date: string) => {
+  const [year, month, day] = date.split('-');
+  return [month, day, year].join('/');
+};
+
+export const useInsertEntry = (
+  setLoading: React.Dispatch<React.SetStateAction<boolean>>
+) => {
+  const [error, setError] = useState<Error>({ message: '', isValid: false });
+  const [isSuccess, setIsSuccess] = useState(false);
+
+  const insertEntry = useCallback(
+    async (state: NewEntryState) => {
+      const entry = { ...state };
+      entry['date'] = format(entry['date']);
+
+      setLoading(true);
+
+      try {
+        await CashflowService.create(entry);
+        setIsSuccess(true);
+      } catch (err) {
+        setError({
+          message: 'Inserting new entry failed, please try again!',
+          isValid: true,
+        });
+      } finally {
+        setLoading(false);
+      }
+    },
+    [setLoading]
+  );
+
+  return { insertEntry, error, isSuccess };
 };

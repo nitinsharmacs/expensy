@@ -1,5 +1,5 @@
 import { RecentEntryItemProps } from '../components/RecentEntryItem/RecentEntryItem';
-import { Category, NewEntryState } from '../screens/NewEntry/NewEntry';
+import { Category, NewEntryState } from '../screens/NewEntry/NewEntry.types';
 
 class CashflowAPIService {
   static postEntry(newEntry: NewEntryState): Promise<Response> {

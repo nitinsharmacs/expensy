@@ -1,4 +1,4 @@
-import { NewEntryState } from '../screens/NewEntry/NewEntry';
+import { NewEntryState } from '../screens/NewEntry/NewEntry.types';
 import BufferManager from './BufferManager';
 import CashflowAPIService from './CashflowAPIService';
 import CashflowLoop from './CashflowLoop';

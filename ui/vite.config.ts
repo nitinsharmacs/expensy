@@ -33,9 +33,13 @@ export default defineConfig({
     },
   ],
   server: {
-    port: 8000,
+    port: 8081,
     proxy: {
       '/api': {
+        target: 'http://localhost:3000/',
+        changeOrigin: true,
+      },
+      '/ping': {
         target: 'http://localhost:3000/',
         changeOrigin: true,
       },

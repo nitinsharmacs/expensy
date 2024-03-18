@@ -54,6 +54,7 @@ export const useInsertEntry = (
         });
       } finally {
         setLoading(false);
+        setError({ message: '', isValid: false });
       }
     },
     [setLoading]

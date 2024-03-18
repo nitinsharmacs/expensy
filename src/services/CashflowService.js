@@ -37,6 +37,10 @@ class CashflowService {
       description,
     }));
   }
+
+  deleteEntries(entryIDs) {
+    return this.#googleSheetsService.deleteEntries(entryIDs);
+  }
 }
 
 module.exports = CashflowService;

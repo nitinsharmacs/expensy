@@ -42,6 +42,12 @@ class CashflowController {
 
     res.status(200).json({ status: HttpStatus.OK, entries });
   }
+
+  deleteEntries = async (req, res) => {
+    console.log(req.body);
+    await this.#cashflowService.deleteEntries(req.body.entryIDs);
+    res.status(200).json({ status: HttpStatus.OK });
+  };
 }
 
 module.exports = CashflowController;

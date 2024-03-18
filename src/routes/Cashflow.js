@@ -13,6 +13,8 @@ const CashflowRouter = (cashflowController) => {
 
   cashflowRoutes.get('/recent-entries', cashflowController.getRecentEntries);
 
+  cashflowRoutes.delete('/delete-entries', cashflowController.deleteEntries);
+
   return cashflowRoutes;
 };
 

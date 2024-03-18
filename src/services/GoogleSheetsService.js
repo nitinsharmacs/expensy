@@ -1,5 +1,6 @@
 const GoogleSheetsClient = require('../GoogleSheetsClient');
 
+const asc = (a, b) => b - a;
 class GoogleSheetsService {
   #LIMIT;
   constructor(spreadsheetId) {
@@ -69,6 +70,37 @@ class GoogleSheetsService {
     });
 
     return response.data.values;
+  }
+
+  async deleteEntries(entryIDs) {
+    console.info('Start Delete Entries');
+
+    const client = await GoogleSheetsClient.getClient();
+
+    const startIndex = entryIDs[0] - 1;
+    const endIndex = entryIDs[0];
+
+    const resource = {
+      requests: [
+        {
+          deleteDimension: {
+            range: {
+              sheetId: 0,
+              dimension: 'ROWS',
+              startIndex,
+              endIndex,
+            },
+          },
+        },
+      ],
+    };
+
+    const batchReqBody = {
+      spreadsheetId: this.spreadsheetId,
+      resource: resource,
+    };
+
+    await client.spreadsheets.batchUpdate(batchReqBody);
   }
 }
 

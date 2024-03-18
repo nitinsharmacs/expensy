@@ -9,12 +9,10 @@ import {
 } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import { TransitionProps } from '@mui/material/transitions';
-import React, { useEffect, useState } from 'react';
-import RecentEntryItem, {
-  RecentEntryItemProps,
-} from '../../components/RecentEntryItem/RecentEntryItem';
+import React from 'react';
+import RecentEntryItem from '../../components/RecentEntryItem/RecentEntryItem';
 import Loader from '../../components/Loader/Loader';
-import CashflowAPIService from '../../services/CashflowAPIService';
+import { useRecentEntries } from './RecentEntries.hooks';
 
 const Transition = React.forwardRef(function Transition(
   props: TransitionProps & {
@@ -29,27 +27,6 @@ interface RecentEntriesProps {
   open: boolean;
   close: () => void;
 }
-
-const useRecentEntries = (open: boolean): [RecentEntryItemProps[], boolean] => {
-  const [entries, setEntries] = useState<RecentEntryItemProps[]>([]);
-  const [loading, setLoading] = useState(false);
-
-  useEffect(() => {
-    const getRecentEntries = async () => {
-      setLoading(true);
-      setEntries([]);
-      const recentEntries: RecentEntryItemProps[] =
-        await CashflowAPIService.getRecentEntries();
-
-      setLoading(false);
-      setEntries(recentEntries);
-    };
-
-    if (open) getRecentEntries();
-  }, [open]);
-
-  return [entries, loading];
-};
 
 const RecentEntries = ({ close, open }: RecentEntriesProps) => {
   const [entries, loading] = useRecentEntries(open);
@@ -73,8 +50,8 @@ const RecentEntries = ({ close, open }: RecentEntriesProps) => {
           </Toolbar>
         </AppBar>
         <List>
-          {entries?.reverse().map((entry) => (
-            <RecentEntryItem {...entry} />
+          {entries?.reverse().map((entry, index) => (
+            <RecentEntryItem {...entry} key={index} />
           ))}
         </List>
       </Dialog>

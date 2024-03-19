@@ -66,7 +66,7 @@ class GoogleSheetsService {
 
     const response = await client.spreadsheets.values.get({
       spreadsheetId: this.spreadsheetId,
-      range: `Daily Expenses!A${startIndex}:D${endIndex}`,
+      range: `Daily Expenses!A${startIndex}:E${endIndex}`,
     });
 
     return response.data.values;

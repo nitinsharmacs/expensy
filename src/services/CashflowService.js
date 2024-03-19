@@ -30,11 +30,12 @@ class CashflowService {
   async getRecentEntries() {
     const entries = await this.#googleSheetsService.getRecentEntries();
 
-    return entries.map(([date, category, amount, description]) => ({
+    return entries.map(([date, category, amount, description, id]) => ({
       date,
       category,
       amount,
       description,
+      id,
     }));
   }
 

@@ -14,6 +14,7 @@ const AuthService = require('./services/AuthService');
 const authInterceptor = require('./services/authInterceptor');
 
 const createApp = async ({
+  spreadsheetId,
   sheetId,
   credentials,
   sessionConfig,
@@ -51,7 +52,7 @@ const createApp = async ({
     authInterceptor,
     CashflowRouter(
       new CashflowController(
-        new CashflowService(new GoogleSheetsService(sheetId))
+        new CashflowService(new GoogleSheetsService(spreadsheetId, sheetId))
       )
     )
   );

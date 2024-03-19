@@ -4,6 +4,7 @@ const redis = require('redis');
 const createApp = require('./src/app');
 
 const main = async () => {
+  const spreadsheetId = process.env.SPREADSHEET_ID;
   const sheetId = process.env.SHEET_ID;
   const username = process.env.USERNAME;
   const password = process.env.PASSWORD;
@@ -21,6 +22,7 @@ const main = async () => {
 
   const app = await createApp({
     sheetId,
+    spreadsheetId,
     credentials: { username, password },
     sessionConfig: { secret },
     sessionStore,

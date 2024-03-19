@@ -3,9 +3,10 @@ const GoogleSheetsClient = require('../GoogleSheetsClient');
 const asc = (a, b) => b - a;
 class GoogleSheetsService {
   #LIMIT;
-  constructor(spreadsheetId) {
+  constructor(spreadsheetId, sheetId) {
     this.#LIMIT = 10;
     this.spreadsheetId = spreadsheetId;
+    this.sheetId = sheetId;
   }
 
   async insert(values) {
@@ -85,7 +86,7 @@ class GoogleSheetsService {
         {
           deleteDimension: {
             range: {
-              sheetId: 0,
+              sheetId: this.sheetId,
               dimension: 'ROWS',
               startIndex,
               endIndex,

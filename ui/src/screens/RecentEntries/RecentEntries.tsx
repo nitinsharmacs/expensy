@@ -5,6 +5,7 @@ import RecentEntryItem from '../../components/RecentEntryItem/RecentEntryItem';
 import Loader from '../../components/Loader/Loader';
 import { useRecentEntries, useSelectItem } from './RecentEntries.hooks';
 import DialogBar from '../../components/DialogBar/DialogBar';
+import SelectedItemsActionsPanel from '../../components/SelectedItemsActionsPanel/SelectedItemsActionsPanel';
 
 const Transition = React.forwardRef(function Transition(
   props: TransitionProps & {
@@ -24,13 +25,18 @@ const RecentEntries = ({ close, open }: RecentEntriesProps) => {
   const [entries, loading] = useRecentEntries(open);
   const [selectedItems, selectItem] = useSelectItem([]);
 
-  console.log(selectedItems);
-
   return (
     <div>
       <Dialog fullScreen open={open} TransitionComponent={Transition}>
         <DialogBar title='Recent Entries' close={close} />
-        <List>
+
+        <SelectedItemsActionsPanel
+          open={selectedItems.length !== 0}
+          selectedCounts={selectedItems.length}
+          actionClick={() => alert('hi')}
+        />
+
+        <List sx={{ padding: '0' }}>
           {entries?.reverse().map((entry) => (
             <RecentEntryItem
               {...entry}

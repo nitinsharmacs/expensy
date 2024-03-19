@@ -1,6 +1,5 @@
 import { AppBar, IconButton, Toolbar, Typography } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
-import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 
 interface DialogBarProps {
   title: string;
@@ -22,14 +21,6 @@ const DialogBar = (props: DialogBarProps) => {
         <Typography sx={{ ml: 2, flex: 1 }} variant='h6' component='div'>
           {props.title}
         </Typography>
-        {/* <IconButton
-          autoFocus
-          color='inherit'
-          aria-label='delete'
-          onClick={props.close}
-        >
-          <DeleteOutlineIcon />
-        </IconButton> */}
       </Toolbar>
     </AppBar>
   );

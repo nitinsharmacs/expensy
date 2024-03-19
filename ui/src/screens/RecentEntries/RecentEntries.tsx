@@ -1,18 +1,10 @@
-import {
-  AppBar,
-  Dialog,
-  IconButton,
-  List,
-  Slide,
-  Toolbar,
-  Typography,
-} from '@mui/material';
-import CloseIcon from '@mui/icons-material/Close';
+import { Dialog, List, Slide } from '@mui/material';
 import { TransitionProps } from '@mui/material/transitions';
 import React from 'react';
 import RecentEntryItem from '../../components/RecentEntryItem/RecentEntryItem';
 import Loader from '../../components/Loader/Loader';
-import { useRecentEntries } from './RecentEntries.hooks';
+import { useRecentEntries, useSelectItem } from './RecentEntries.hooks';
+import DialogBar from '../../components/DialogBar/DialogBar';
 
 const Transition = React.forwardRef(function Transition(
   props: TransitionProps & {
@@ -30,28 +22,22 @@ interface RecentEntriesProps {
 
 const RecentEntries = ({ close, open }: RecentEntriesProps) => {
   const [entries, loading] = useRecentEntries(open);
+  const [selectedItems, selectItem] = useSelectItem([]);
+
+  console.log(selectedItems);
 
   return (
     <div>
       <Dialog fullScreen open={open} TransitionComponent={Transition}>
-        <AppBar sx={{ position: 'sticky' }}>
-          <Toolbar>
-            <IconButton
-              edge='start'
-              color='inherit'
-              aria-label='close'
-              onClick={close}
-            >
-              <CloseIcon />
-            </IconButton>
-            <Typography sx={{ ml: 2, flex: 1 }} variant='h6' component='div'>
-              Recent Entries
-            </Typography>
-          </Toolbar>
-        </AppBar>
+        <DialogBar title='Recent Entries' close={close} />
         <List>
-          {entries?.reverse().map((entry, index) => (
-            <RecentEntryItem {...entry} key={index} />
+          {entries?.reverse().map((entry) => (
+            <RecentEntryItem
+              {...entry}
+              key={`${entry.id}-${entry.date}`}
+              highlight={selectedItems.includes(entry.id)}
+              onClick={selectItem}
+            />
           ))}
         </List>
       </Dialog>

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { RecentEntryItemProps } from '../../components/RecentEntryItem/RecentEntryItem';
 import CashflowAPIService from '../../services/CashflowAPIService';
 
@@ -23,4 +23,22 @@ export const useRecentEntries = (
   }, [open]);
 
   return [entries, loading];
+};
+
+export const useSelectItem = (
+  defaultItems: number[]
+): [number[], (id: number) => void] => {
+  const [selectedItems, selectItem] = useState<number[]>(defaultItems);
+
+  const selectUnselect = useCallback((id: number) => {
+    selectItem((prevItems) => {
+      if (prevItems.includes(id)) {
+        return prevItems.filter((_id) => _id !== id);
+      }
+
+      return [...prevItems, id];
+    });
+  }, []);
+
+  return [selectedItems, selectUnselect];
 };

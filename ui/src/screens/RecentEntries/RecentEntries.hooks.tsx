@@ -1,6 +1,10 @@
 import { useCallback, useEffect, useState } from 'react';
 import { RecentEntryItemProps } from '../../components/RecentEntryItem/RecentEntryItem';
 import CashflowAPIService from '../../services/CashflowAPIService';
+// import { Error } from '../../Types';
+// import { Error } from '../../Types';
+
+import { APIError } from '../../Types';
 
 export const useRecentEntries = (
   open: boolean
@@ -27,7 +31,7 @@ export const useRecentEntries = (
 
 export const useSelectItem = (
   defaultItems: number[]
-): [number[], (id: number) => void] => {
+): [number[], (id: number) => void, () => void] => {
   const [selectedItems, selectItem] = useState<number[]>(defaultItems);
 
   const selectUnselect = useCallback((id: number) => {
@@ -40,5 +44,35 @@ export const useSelectItem = (
     });
   }, []);
 
-  return [selectedItems, selectUnselect];
+  const clear = useCallback(() => {
+    selectItem([]);
+  }, []);
+
+  return [selectedItems, selectUnselect, clear];
+};
+
+export const useDeleteItems = (): [
+  boolean,
+  boolean,
+  APIError,
+  (ids: number[]) => Promise<void>
+] => {
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<APIError>({ message: '', isValid: false });
+  const [isSuccess, setIsSuccess] = useState(false);
+
+  const deleteItems = useCallback(async (ids: number[]) => {
+    try {
+      setLoading(true);
+      await CashflowAPIService.deleteEntries(ids);
+      setIsSuccess(true);
+    } catch (error) {
+      setError({ isValid: true, message: 'Items deletion failed' });
+    } finally {
+      setLoading(false);
+      setError({ message: '', isValid: false });
+    }
+  }, []);
+
+  return [loading, isSuccess, error, deleteItems];
 };

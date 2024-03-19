@@ -41,6 +41,16 @@ class CashflowAPIService {
       })
       .then((res) => res.entries);
   }
+
+  static deleteEntries(ids: number[]): Promise<Response> {
+    return fetch('/api/delete-entries', {
+      method: 'DELETE',
+      headers: {
+        'content-type': 'application/json',
+      },
+      body: JSON.stringify({ entryIDs: ids }),
+    });
+  }
 }
 
 export default CashflowAPIService;

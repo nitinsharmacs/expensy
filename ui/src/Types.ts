@@ -1,4 +1,4 @@
-export type Error = {
+export type APIError = {
   message: string;
   isValid: boolean;
 };

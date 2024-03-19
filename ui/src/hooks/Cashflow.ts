@@ -2,8 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import CashflowAPIService from '../services/CashflowAPIService';
 import { Category, NewEntryState } from '../screens/NewEntry/NewEntry.types';
 import CashflowService from '../services/CashflowService';
-import { Error } from '../Types';
-
+import { APIError } from '../Types';
 export const useFetchCategories = (
   logined: boolean,
   setLoading: React.Dispatch<React.SetStateAction<boolean>>
@@ -34,7 +33,7 @@ const format = (date: string) => {
 export const useInsertEntry = (
   setLoading: React.Dispatch<React.SetStateAction<boolean>>
 ) => {
-  const [error, setError] = useState<Error>({ message: '', isValid: false });
+  const [error, setError] = useState<APIError>({ message: '', isValid: false });
   const [isSuccess, setIsSuccess] = useState(false);
 
   const insertEntry = useCallback(

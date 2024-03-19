@@ -1,11 +1,16 @@
 import { Dialog, List, Slide } from '@mui/material';
 import { TransitionProps } from '@mui/material/transitions';
-import React from 'react';
+import React, { useEffect } from 'react';
 import RecentEntryItem from '../../components/RecentEntryItem/RecentEntryItem';
 import Loader from '../../components/Loader/Loader';
-import { useRecentEntries, useSelectItem } from './RecentEntries.hooks';
+import {
+  useDeleteItems,
+  useRecentEntries,
+  useSelectItem,
+} from './RecentEntries.hooks';
 import DialogBar from '../../components/DialogBar/DialogBar';
 import SelectedItemsActionsPanel from '../../components/SelectedItemsActionsPanel/SelectedItemsActionsPanel';
+import Toast from '../../Toast';
 
 const Transition = React.forwardRef(function Transition(
   props: TransitionProps & {
@@ -23,7 +28,13 @@ interface RecentEntriesProps {
 
 const RecentEntries = ({ close, open }: RecentEntriesProps) => {
   const [entries, loading] = useRecentEntries(open);
-  const [selectedItems, selectItem] = useSelectItem([]);
+  const [selectedItems, selectItem, clear] = useSelectItem([]);
+  const [isLoading, isSuccess, error, deleteItems] = useDeleteItems();
+
+  useEffect(() => {
+    if (isSuccess) Toast.insert('Created new entry successfully');
+    if (error.isValid) Toast.insertRed(error.message);
+  }, [isSuccess, error]);
 
   return (
     <div>
@@ -33,7 +44,10 @@ const RecentEntries = ({ close, open }: RecentEntriesProps) => {
         <SelectedItemsActionsPanel
           open={selectedItems.length !== 0}
           selectedCounts={selectedItems.length}
-          actionClick={() => alert('hi')}
+          actionClick={() => {
+            deleteItems(selectedItems);
+            clear();
+          }}
         />
 
         <List sx={{ padding: '0' }}>
@@ -47,7 +61,7 @@ const RecentEntries = ({ close, open }: RecentEntriesProps) => {
           ))}
         </List>
       </Dialog>
-      {loading ? <Loader /> : <></>}
+      {loading || isLoading ? <Loader /> : <></>}
     </div>
   );
 };

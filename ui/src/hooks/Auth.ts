@@ -1,12 +1,12 @@
 import { useCallback, useEffect, useState } from 'react';
 import { LoginFormState } from '../screens/Login/Login';
 import AuthService from '../services/AuthService';
-import { Error } from '../Types';
+import { APIError } from '../Types';
 
 export const useLogin = (
   setLoading: React.Dispatch<React.SetStateAction<boolean>>
 ) => {
-  const [error, setError] = useState<Error>({ message: '', isValid: false });
+  const [error, setError] = useState<APIError>({ message: '', isValid: false });
   const [logined, setLogined] = useState(false);
 
   const login = useCallback(

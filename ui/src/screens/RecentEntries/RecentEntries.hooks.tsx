@@ -20,7 +20,7 @@ export const useRecentEntries = (
         await CashflowAPIService.getRecentEntries();
 
       setLoading(false);
-      setEntries(recentEntries);
+      setEntries(recentEntries.reverse());
     };
 
     if (open) getRecentEntries();

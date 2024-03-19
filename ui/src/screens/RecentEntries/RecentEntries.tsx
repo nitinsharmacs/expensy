@@ -32,7 +32,7 @@ const RecentEntries = ({ close, open }: RecentEntriesProps) => {
   const [isLoading, isSuccess, error, deleteItems] = useDeleteItems();
 
   useEffect(() => {
-    if (isSuccess) Toast.insert('Created new entry successfully');
+    if (isSuccess) Toast.insert('Item deleted successfully');
     if (error.isValid) Toast.insertRed(error.message);
   }, [isSuccess, error]);
 
@@ -51,7 +51,7 @@ const RecentEntries = ({ close, open }: RecentEntriesProps) => {
         />
 
         <List sx={{ padding: '0' }}>
-          {entries?.reverse().map((entry) => (
+          {entries?.map((entry) => (
             <RecentEntryItem
               {...entry}
               key={`${entry.id}-${entry.date}`}

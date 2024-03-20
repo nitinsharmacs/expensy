@@ -1,8 +1,8 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import CashflowAPIService from '../services/CashflowAPIService';
 import { Category, NewEntryState } from '../screens/NewEntry/NewEntry.types';
-import CashflowService from '../services/CashflowService';
 import { APIError } from '../Types';
+import BufferedRequest from '../services/BufferedRequest';
 export const useFetchCategories = (
   logined: boolean,
   setLoading: React.Dispatch<React.SetStateAction<boolean>>
@@ -44,7 +44,7 @@ export const useInsertEntry = (
       setLoading(true);
 
       try {
-        await CashflowService.create(entry);
+        await BufferedRequest.submit(() => CashflowAPIService.postEntry(entry));
         setIsSuccess(true);
       } catch (err) {
         setError({

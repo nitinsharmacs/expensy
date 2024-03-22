@@ -32,91 +32,12 @@ class CashflowController {
   }
 
   async getCategories(_, res) {
-    return res.status(200).json({
-      status: 'ok',
-      categories: ['Health & food', 'Travel', 'Medical'],
-    });
     const categories = await this.#cashflowService.getCategories();
 
     res.status(200).json({ status: HttpStatus.OK, categories });
   }
 
   async getRecentEntries(_, res) {
-    return res.status(200).json({
-      status: 'ok',
-      entries: [
-        {
-          date: '12/19/2023',
-          category: 'Health & food',
-          amount: '44',
-          description: 'adsfads',
-          id: '4',
-        },
-        {
-          date: '12/22/2023',
-          category: 'Health & food',
-          amount: '3333',
-          description: 'test',
-          id: '5',
-        },
-        {
-          date: '12/22/2023',
-          category: 'Health & food',
-          amount: '420',
-          description: 'asdf',
-          id: '6',
-        },
-        {
-          date: '12/22/2023',
-          category: 'Health & food',
-          amount: '2341',
-          description: 'adsfasd',
-          id: '7',
-        },
-        {
-          date: '03/19/2024',
-          category: 'Health & food',
-          amount: '0',
-          description: '',
-          id: '8',
-        },
-        {
-          date: '03/19/2024',
-          category: 'Health & food',
-          amount: '0',
-          description: '',
-          id: '9',
-        },
-        {
-          date: '03/19/2024',
-          category: 'Health & food',
-          amount: '20000',
-          description: 'testse',
-          id: '10',
-        },
-        {
-          date: '03/19/2024',
-          category: 'Health & food',
-          amount: '0',
-          description: '',
-          id: '11',
-        },
-        {
-          date: '03/20/2024',
-          category: 'Health & food',
-          amount: '0',
-          description: '',
-          id: '12',
-        },
-        {
-          date: '03/20/2024',
-          category: 'Health & food',
-          amount: '3333',
-          description: 'testtest',
-          id: '13',
-        },
-      ],
-    });
     const entries = await this.#cashflowService.getRecentEntries();
 
     res.status(200).json({ status: HttpStatus.OK, entries });

@@ -17,4 +17,11 @@ export interface MonthlyExpensesProps {
 export interface MonthlyExpenseItemProps {
   month: string;
   totalExpense: string;
+  onClick: (month: string) => void;
+}
+
+export interface MonthlyExpensesBreakdownProps {
+  monthlyExpense: MonthlyExpense;
+  open: boolean;
+  close: () => void;
 }

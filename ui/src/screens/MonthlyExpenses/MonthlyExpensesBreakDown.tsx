@@ -1,25 +1,16 @@
 import SlideUpDialog from '../../components/SlideUpDialog/SlideUpDialog';
-import { MonthlyExpense } from './Types';
+import { MonthlyExpensesBreakdownProps } from './Types';
 import ColumnChart from '../../components/charts/ColumnChart/ColumnChart';
 import { Box, Container, Divider, Typography } from '@mui/material';
 import PieChart from '../../components/charts/PieChart/PieChart';
-const janExpense = {
-  month: 'Jan-2024',
-  totalExpense: '-200000',
-  expenses: [
-    { category: 'Travel', expense: -6865.62 },
-    { category: 'Education', expense: -101 },
-    { category: 'Subscriptions', expense: 0 },
-    { category: 'Rent & Bills', expense: -7609 },
-    { category: 'Health & food', expense: -7127 },
-    { category: 'Medical', expense: -170 },
-    { category: 'Life Style', expense: 0 },
-  ],
-};
 
-const MonthlyExpensesBreakDown = (props: MonthlyExpense) => {
+const MonthlyExpensesBreakDown = ({
+  open,
+  monthlyExpense,
+  close,
+}: MonthlyExpensesBreakdownProps) => {
   return (
-    <SlideUpDialog title={props.month} open={true} close={() => alert('sf')}>
+    <SlideUpDialog title={monthlyExpense.month} open={open} close={close}>
       <Container maxWidth='lg' disableGutters sx={{ padding: '0.5em 0' }}>
         <Typography sx={{ ml: 2, flex: 1 }} variant='h6' component='div'>
           Expense Distribution
@@ -27,7 +18,7 @@ const MonthlyExpensesBreakDown = (props: MonthlyExpense) => {
         <Box>
           <ColumnChart
             title='Expenses'
-            data={janExpense.expenses.map((expense) => ({
+            data={monthlyExpense?.expenses?.map((expense) => ({
               xAxis: expense.category,
               yAxis: Math.abs(expense.expense),
             }))}
@@ -37,7 +28,7 @@ const MonthlyExpensesBreakDown = (props: MonthlyExpense) => {
         <Box sx={{ margin: '0.5em 0' }}>
           <PieChart
             title='Categories'
-            data={janExpense.expenses.map((expense) => ({
+            data={monthlyExpense?.expenses?.map((expense) => ({
               label: expense.category,
               value: Math.abs(expense.expense),
             }))}

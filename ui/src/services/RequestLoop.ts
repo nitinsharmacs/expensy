@@ -5,7 +5,7 @@ class RequestLoop {
   private static INTERVAL: number = 8000;
 
   static start() {
-    const interval: NodeJS.Timeout = setInterval(async () => {
+    const interval = setInterval(async () => {
       if (await Server.isSleeping()) {
         return;
       }

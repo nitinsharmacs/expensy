@@ -1,4 +1,3 @@
-import Chart from 'react-google-charts';
 import SlideUpDialog from '../../components/SlideUpDialog/SlideUpDialog';
 import { MonthlyExpense } from './Types';
 import ColumnChart from '../../components/charts/ColumnChart/ColumnChart';

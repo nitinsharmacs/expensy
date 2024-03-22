@@ -1,4 +1,5 @@
 import { RecentEntryItemProps } from '../components/RecentEntryItem/RecentEntryItem';
+import { MonthlyExpense } from '../screens/MonthlyExpenses/Types';
 import { Category, NewEntryState } from '../screens/NewEntry/NewEntry.types';
 
 class CashflowAPIService {
@@ -40,6 +41,18 @@ class CashflowAPIService {
         return res.json();
       })
       .then((res) => res.entries);
+  }
+
+  static getMonthlyExpenses(): Promise<MonthlyExpense[]> {
+    return fetch('/api/monthly-expenses')
+      .then((res) => {
+        if (res.status !== 200) {
+          throw new Error();
+        }
+
+        return res.json();
+      })
+      .then((res) => res.monthlyExpenses);
   }
 
   static deleteEntries(ids: number[]): Promise<Response> {

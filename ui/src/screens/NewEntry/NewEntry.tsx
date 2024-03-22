@@ -1,4 +1,5 @@
 import {
+  Box,
   Button,
   FormControl,
   IconButton,
@@ -10,12 +11,14 @@ import {
 } from '@mui/material';
 
 import HistoryIcon from '@mui/icons-material/History';
+import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 
 import { useCallback, useEffect, useState } from 'react';
 import Page from '../../components/Page/Page';
 import Form from '../../components/Form/Form';
 import RecentEntries from '../RecentEntries/RecentEntries';
 import { NewEntryState, Category, NewEntryProps } from './NewEntry.types';
+import MonthlyExpenses from '../MonthlyExpenses/MonthlyExpenses';
 
 const getEntryState = (categories: Category[]): NewEntryState => ({
   date: new Date().toISOString().split('T')[0],
@@ -27,6 +30,7 @@ const getEntryState = (categories: Category[]): NewEntryState => ({
 const NewEntry = ({ onSubmit, categories }: NewEntryProps) => {
   const [formState, setFormState] = useState(getEntryState(categories));
   const [openRecentEntries, setOpenRecentEntries] = useState(false);
+  const [openMonthlyExpenses, setOpenMonthlyExpenses] = useState(false);
 
   useEffect(() => {
     setFormState(getEntryState(categories));
@@ -56,12 +60,12 @@ const NewEntry = ({ onSubmit, categories }: NewEntryProps) => {
     setOpenRecentEntries(true);
   }, []);
 
+  const openMonthlyExpensesHandler = useCallback(() => {
+    setOpenMonthlyExpenses(true);
+  }, []);
+
   return (
     <Page>
-      <RecentEntries
-        open={openRecentEntries}
-        close={() => setOpenRecentEntries(false)}
-      />
       <Form title='New Entry'>
         <TextField
           fullWidth
@@ -113,13 +117,32 @@ const NewEntry = ({ onSubmit, categories }: NewEntryProps) => {
         <Button variant='contained' onClick={submit}>
           Send
         </Button>
-        <IconButton
-          sx={{ position: 'fixed', bottom: '10px', right: '10px' }}
-          title='Open Recent Entries'
-          onClick={openRecentEntriesHandler}
-        >
-          <HistoryIcon />
-        </IconButton>
+        <Box>
+          <IconButton
+            sx={{ position: 'fixed', bottom: '10px', right: '10px' }}
+            title='Open Recent Entries'
+            onClick={openRecentEntriesHandler}
+          >
+            <HistoryIcon />
+          </IconButton>
+          <IconButton
+            sx={{ position: 'fixed', bottom: '10px', right: '40px' }}
+            title='Open Recent Entries'
+            onClick={openMonthlyExpensesHandler}
+          >
+            <CalendarMonthIcon />
+          </IconButton>
+        </Box>
+        <Box>
+          <RecentEntries
+            open={openRecentEntries}
+            close={() => setOpenRecentEntries(false)}
+          />
+          <MonthlyExpenses
+            open={openMonthlyExpenses}
+            close={() => setOpenMonthlyExpenses(false)}
+          />
+        </Box>
       </Form>
     </Page>
   );

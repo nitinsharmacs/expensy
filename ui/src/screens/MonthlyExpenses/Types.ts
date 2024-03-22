@@ -10,7 +10,8 @@ export type MonthlyExpense = {
 };
 
 export interface MonthlyExpensesProps {
-  monthlyExpenses: MonthlyExpense[];
+  open: boolean;
+  close: () => void;
 }
 
 export interface MonthlyExpenseItemProps {

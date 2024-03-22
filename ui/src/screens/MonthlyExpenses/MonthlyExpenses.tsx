@@ -1,6 +1,10 @@
 import { Grid, ListItemButton, ListItemText } from '@mui/material';
 import SlideUpDialog from '../../components/SlideUpDialog/SlideUpDialog';
 import { MonthlyExpenseItemProps, MonthlyExpensesProps } from './Types';
+import { useMonthlyExpenses } from './MonthlyExpenses.hook';
+import Loader from '../../components/Loader/Loader';
+import { useEffect } from 'react';
+import Toast from '../../Toast';
 
 const Amount = (props: { value: string }) => {
   return <span style={{ fontSize: '1.2em', color: 'red' }}>{props.value}</span>;
@@ -28,10 +32,20 @@ const MonthlyExpenseItem = (
 };
 
 const MonthlyExpenses = (props: MonthlyExpensesProps) => {
+  const [monthlyExpenses, loading, error] = useMonthlyExpenses(props.open);
+
+  useEffect(() => {
+    if (error.isValid) Toast.insertRed(error.message);
+  }, [error]);
+
   return (
-    <SlideUpDialog open={true} close={() => {}} title='Monthly Expense'>
+    <SlideUpDialog
+      open={props.open}
+      close={props.close}
+      title='Monthly Expense'
+    >
       <Grid container spacing={2} sx={{ padding: '1em' }}>
-        {props.monthlyExpenses.map((monthlyExpense) => (
+        {monthlyExpenses?.map((monthlyExpense) => (
           <MonthlyExpenseItem
             month={monthlyExpense.month}
             totalExpense={monthlyExpense.totalExpense}
@@ -39,6 +53,7 @@ const MonthlyExpenses = (props: MonthlyExpensesProps) => {
           />
         ))}
       </Grid>
+      {loading ? <Loader /> : <></>}
     </SlideUpDialog>
   );
 };

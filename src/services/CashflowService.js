@@ -39,6 +39,39 @@ class CashflowService {
     }));
   }
 
+  // source: [["month", "travel", "health", ..., "total"], ["jan", -11, -10, ..., "-199"]]
+  // target: [{month:, totalExpense: -199, expenses: [{category: '', expense: -11}]}]
+
+  #groupExpenseByCategory(categories, expense) {
+    return categories.map((category, index) => ({
+      category,
+      expense: expense[index],
+    }));
+  }
+
+  #restructureMonthlyExpense(headers, expense) {
+    const [month, ...rest] = expense;
+    const [totalExpense] = rest.reverse();
+    const categoryExpenses = expense.slice(1, -1);
+    const categories = headers.slice(1, -1);
+
+    return {
+      month,
+      totalExpense,
+      expenses: this.#groupExpenseByCategory(categories, categoryExpenses),
+    };
+  }
+
+  async getMonthlyExpenses() {
+    const [header, ...expenses] =
+      await this.#googleSheetsService.getMonthlyExpenses();
+
+    console.log(header, expenses);
+    return expenses.map((expense) =>
+      this.#restructureMonthlyExpense(header, expense)
+    );
+  }
+
   deleteEntries(entryIDs) {
     return this.#googleSheetsService.deleteEntries(entryIDs);
   }

@@ -52,7 +52,7 @@ class CashflowAPIService {
 
         return res.json();
       })
-      .then((res) => res.monthlyExpenses);
+      .then((res) => res.expenses);
   }
 
   static deleteEntries(ids: number[]): Promise<Response> {

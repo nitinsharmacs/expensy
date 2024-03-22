@@ -73,6 +73,19 @@ class GoogleSheetsService {
     return response.data.values;
   }
 
+  async getMonthlyExpenses() {
+    console.info('Fetching monthly expenses from spreadsheet');
+
+    const client = await GoogleSheetsClient.getClient();
+
+    const response = await client.spreadsheets.values.get({
+      spreadsheetId: this.spreadsheetId,
+      range: `Monthly Expenses!A1:I13`,
+    });
+
+    return response.data.values;
+  }
+
   async deleteEntries(entryIDs) {
     console.info('Start Delete Entries');
 

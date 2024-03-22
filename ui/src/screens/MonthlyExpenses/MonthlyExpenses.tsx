@@ -6,8 +6,17 @@ import Loader from '../../components/Loader/Loader';
 import { useEffect } from 'react';
 import Toast from '../../Toast';
 
-const Amount = (props: { value: string }) => {
-  return <span style={{ fontSize: '1.2em', color: 'red' }}>{props.value}</span>;
+const Amount = ({ value }: { value: string }) => {
+  return (
+    <span
+      style={{
+        fontSize: '1em',
+        color: value.includes('-') ? 'red' : 'inherit',
+      }}
+    >
+      {value}
+    </span>
+  );
 };
 
 const MonthlyExpenseItem = (

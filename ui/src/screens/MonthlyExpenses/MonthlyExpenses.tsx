@@ -1,37 +1,15 @@
-import { Grid, List, ListItemButton, ListItemText } from '@mui/material';
+import { Grid, ListItemButton, ListItemText } from '@mui/material';
 import SlideUpDialog from '../../components/SlideUpDialog/SlideUpDialog';
+import { MonthlyExpenseItemProps, MonthlyExpensesProps } from './Types';
 
-type Expense = {
-  category: string;
-  expense: number;
+const Amount = (props: { value: string }) => {
+  return <span style={{ fontSize: '1.2em', color: 'red' }}>{props.value}</span>;
 };
-
-type MonthlyExpense = {
-  month: string;
-  expenses: Expense[];
-  totalExpense: string;
-};
-
-interface MonthlyExpensesProps {
-  monthlyExpenses: MonthlyExpense[];
-}
-
-interface MonthlyExpenseItemProps {
-  month: string;
-  totalExpense: string;
-}
 
 const MonthlyExpenseItem = (
   props: MonthlyExpenseItemProps
 ): React.ReactElement => {
   return (
-    // <ListItemButton
-    //   sx={{
-    //     borderBottom: '1px solid #dfe1e3',
-    //   }}
-    // >
-    //   <ListItemText primary={props.totalExpense} secondary={props.month} />
-    // </ListItemButton>
     <Grid item xs={4}>
       <ListItemButton
         sx={{
@@ -41,7 +19,7 @@ const MonthlyExpenseItem = (
       >
         <ListItemText
           sx={{ textAlign: 'center' }}
-          primary={props.totalExpense}
+          primary={<Amount value={props.totalExpense} />}
           secondary={props.month}
         />
       </ListItemButton>
@@ -57,6 +35,7 @@ const MonthlyExpenses = (props: MonthlyExpensesProps) => {
           <MonthlyExpenseItem
             month={monthlyExpense.month}
             totalExpense={monthlyExpense.totalExpense}
+            key={monthlyExpense.month}
           />
         ))}
       </Grid>

@@ -24,7 +24,7 @@ export const useFetchCategories = (
   return { categories };
 };
 
-// yyyy-mm-dd => mm/dd/yyy
+// yyyy-mm-dd => mm/dd/yyyy
 const format = (date: string) => {
   const [year, month, day] = date.split('-');
   return [month, day, year].join('/');

@@ -4,3 +4,4 @@ secrets
 .envrc
 dist
 build
+public/

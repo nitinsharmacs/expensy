@@ -14,7 +14,8 @@ It is an expense manager that takes data from your personalized google spread sh
 
 **Prerequisites**
 
-You need to have a google project created which has access to your google sheets api.
+1. You need to have a google project created which has access to your google sheets api.
+2. Spreadsheet Schema. Refer [this](./docs/spreadsheet-schema.md).
 
 ### Setup environment variables
 
@@ -27,8 +28,7 @@ export CASHFLOW_PRIVATE_KEY="<google project private key>"
 export CASHFLOW_CLIENT_EMAIL="<service account email for the sheet>"
 ```
 
-> [!NOTE]
-> `CASHFLOW_CLIENT_EMAIL` is something you will get from google project dashboard. This email you need to provide access in expenses spreadsheet.
+> [!NOTE] > `CASHFLOW_CLIENT_EMAIL` is something you will get from google project dashboard. This email you need to provide access in expenses spreadsheet.
 
 2. Write environment variables related to application.
 
@@ -40,6 +40,8 @@ export PASSWORD="<login password>"
 export SESSION_SECRET="<secret for session>"
 export REDIS_URL="<redis url>"
 ```
+
+Refer [this](./docs/environment-variables.md) doc to understand these environment variables.
 
 ### Create credential file for Google client
 

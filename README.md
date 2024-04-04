@@ -27,7 +27,7 @@ export CASHFLOW_PRIVATE_KEY="<google project private key>"
 export CASHFLOW_CLIENT_EMAIL="<service account email for the sheet>"
 ```
 
-> [!info] Note
+> [!NOTE]
 > `CASHFLOW_CLIENT_EMAIL` is something you will get from google project dashboard. This email you need to provide access in expenses spreadsheet.
 
 2. Write environment variables related to application.
@@ -59,7 +59,7 @@ source .env
 ./bin/setupSecret.sh
 ```
 
-> [!info]
+> [!NOTE]
 > Please give execution permission to it if required. (use` chmod +x ./bin/setupSecret.sh`)
 
 3. Verify if the content in `./secrets/cred.json` is populated with correct information by referring your `.env` file.

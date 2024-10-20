@@ -49,7 +49,7 @@ const RecentEntryItem = (props: RecentEntryItemProps) => {
     >
       <ListItemText
         primary={
-          <PrimaryContent {...props} increment={props.amount.includes('+')} />
+          <PrimaryContent {...props} increment={!props.amount.includes('-')} />
         }
         secondary={props.description}
       />

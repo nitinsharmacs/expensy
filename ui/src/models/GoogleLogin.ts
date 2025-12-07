@@ -1,8 +1,7 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 
 class GoogleLogin {
-  private static CLIENT_ID =
-    '696940407752-erj2i3vslg931cth5qrs7r1k47v2hbce.apps.googleusercontent.com';
+  private static CLIENT_ID = '';
   private static SCOPES = 'https://www.googleapis.com/auth/spreadsheets';
 
   private tokenClient: google.accounts.oauth2.TokenClient;

@@ -1,9 +1,8 @@
 import { useCallback, useEffect, useState } from 'react';
 import { RecentEntryItemProps } from '../../components/RecentEntryItem/RecentEntryItem';
-import CashflowAPIService from '../../services/CashflowAPIService';
 
 import { APIError } from '../../Types';
-import BufferedRequest from '../../services/BufferedRequest';
+import CashflowService from '@/services/CashflowService';
 
 export const useRecentEntries = (
   open: boolean
@@ -16,7 +15,7 @@ export const useRecentEntries = (
       setLoading(true);
       setEntries([]);
       const recentEntries: RecentEntryItemProps[] =
-        await CashflowAPIService.getRecentEntries();
+        await CashflowService.getRecentEntries();
 
       setLoading(false);
       setEntries(recentEntries.reverse());
@@ -63,7 +62,7 @@ export const useDeleteItems = (): [
   const deleteItems = useCallback(async (ids: number[]) => {
     try {
       setLoading(true);
-      await BufferedRequest.submit(() => CashflowAPIService.deleteEntries(ids));
+      await CashflowService.deleteEntries(ids);
       setIsSuccess(true);
     } catch (error) {
       setError({ isValid: true, message: 'Items deletion failed' });

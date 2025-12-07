@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { MonthlyExpense } from './Types';
-import CashflowAPIService from '../../services/CashflowAPIService';
 import { APIError } from '../../Types';
+import CashflowService from '@/services/CashflowService';
 
 export const useMonthlyExpenses = (
   open: boolean
@@ -18,7 +18,7 @@ export const useMonthlyExpenses = (
 
       try {
         const monthlyExpenses: MonthlyExpense[] =
-          await CashflowAPIService.getMonthlyExpenses();
+          await CashflowService.getMonthlyExpenses();
         setMonthlyExpenses(monthlyExpenses);
       } catch (err) {
         setError({ isValid: true, message: "Couldn't load monthly expenses" });

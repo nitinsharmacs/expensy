@@ -2,8 +2,9 @@ import * as React from 'react';
 import { render, screen } from '@testing-library/react';
 import { describe, test, expect } from 'vitest';
 
-import RecentEntryItem from '@components/RecentEntryItem/RecentEntryItem';
-import RecentEntryItemProps from '@components/RecentEntryItem/RecentEntryItemProps';
+import RecentEntryItem from '@/components/RecentEntryItem/RecentEntryItem';
+import RecentEntryItemProps from '@/components/RecentEntryItem/RecentEntryItemProps';
+
 
 describe('RecentEntryItem', () => {
   

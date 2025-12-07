@@ -1,27 +1,23 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import CashflowAPIService from '../services/CashflowAPIService';
+import React, { useCallback, useState } from 'react';
 import { Category, NewEntryState } from '../screens/NewEntry/NewEntry.types';
 import { APIError } from '../Types';
-import BufferedRequest from '../services/BufferedRequest';
+import CashflowService from '@/services/CashflowService';
+
 export const useFetchCategories = (
-  logined: boolean,
   setLoading: React.Dispatch<React.SetStateAction<boolean>>
-): { categories: Category[] } => {
+) => {
   const [categories, setCategories] = useState<Category[]>([]);
 
-  useEffect(() => {
-    if (!logined) {
-      return;
-    }
+  const fetchCategories = useCallback(() => {
     setLoading(true);
 
-    CashflowAPIService.fetchCategories().then((expenseCategories) => {
+    CashflowService.fetchCategories().then((expenseCategories) => {
       setCategories(expenseCategories);
       setLoading(false);
     });
-  }, [logined, setLoading]);
+  }, [setLoading]);
 
-  return { categories };
+  return { categories, fetchCategories };
 };
 
 // yyyy-mm-dd => mm/dd/yyyy
@@ -38,13 +34,13 @@ export const useInsertEntry = (
 
   const insertEntry = useCallback(
     async (state: NewEntryState) => {
-      const entry = { ...state };
+      const entry = { ...state, category: state['category'][0] };
       entry['date'] = format(entry['date']);
 
       setLoading(true);
 
       try {
-        await BufferedRequest.submit(() => CashflowAPIService.postEntry(entry));
+        await CashflowService.postEntry(entry);
         setIsSuccess(true);
       } catch (err) {
         setError({

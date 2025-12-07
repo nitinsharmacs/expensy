@@ -2,7 +2,7 @@ import { AppBar, IconButton, Toolbar } from '@mui/material';
 import LogoutIcon from '@mui/icons-material/Logout';
 
 interface PageBarProps {
-  logout: () => void;
+  resetApp: () => void;
 }
 
 const PageBar = (props: PageBarProps) => {
@@ -11,8 +11,8 @@ const PageBar = (props: PageBarProps) => {
       <Toolbar sx={{ justifyContent: 'flex-end' }}>
         <IconButton
           sx={{ color: 'white' }}
-          title='logout'
-          onClick={props.logout}
+          title='reset-app'
+          onClick={props.resetApp}
         >
           <LogoutIcon />
         </IconButton>

@@ -44,8 +44,6 @@ export const useGoogleSheet = (
   }, []);
 
   useEffect(() => {
-    console.log('logined', logined);
-
     if (logined) {
       const spreadsheetId = localStorage.getItem('spid');
 

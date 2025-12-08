@@ -1,24 +1,24 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 
 class GoogleLogin {
-  private static CLIENT_ID = '';
   private static SCOPES = 'https://www.googleapis.com/auth/spreadsheets';
 
   private tokenClient: google.accounts.oauth2.TokenClient;
+  private clientId: string;
 
-  constructor() {
+  constructor(clientId: string) {
     this.tokenClient = google.accounts.oauth2.initTokenClient({
-      client_id: GoogleLogin.CLIENT_ID,
+      client_id: clientId,
       scope: GoogleLogin.SCOPES,
       callback: () => {},
     });
+    this.clientId = clientId;
   }
 
   async login(): Promise<string> {
     return new Promise((res, rej) => {
       // @ts-ignore
       this.tokenClient.callback = (response: any) => {
-        console.log(response);
         if (response.error) {
           rej(response.error);
         }
@@ -41,7 +41,7 @@ class GoogleLogin {
       return false;
     }
     const info = await resp.json();
-    return info.aud === GoogleLogin.CLIENT_ID;
+    return info.aud === this.clientId;
   }
 
   async logout(): Promise<void> {

@@ -49,7 +49,10 @@ export const useGoogleLogin = (
   const [error, setError] = useState<APIError>({ message: '', isValid: false });
   const [logined, setLogined] = useState(false);
 
-  const googleLogin = useMemo(() => new GoogleLogin(), []);
+  const googleLogin = useMemo(
+    () => new GoogleLogin(import.meta.env.VITE_CLIENT_ID),
+    []
+  );
 
   const login = useCallback(async () => {
     try {
@@ -79,7 +82,7 @@ export const useGoogleLogin = (
       setLoading(false);
       return '';
     }
-  }, [setLoading, googleLogin]);
+  }, [setLoading, googleLogin, googleClient]);
 
   const logout = useCallback(async () => {
     await googleLogin.logout();

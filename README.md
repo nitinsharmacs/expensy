@@ -35,3 +35,11 @@ npm run build
 It should do all the things.
 
 You are good to go.
+
+## Using the application
+
+When the application starts,
+
+1. Provide the conset to app to access your spreadsheets.
+2. Once the authentication is completed, provide the spreadsheet to use as db.
+   (Please make sure you adhere to the structure as schema mentioned in this readme.)

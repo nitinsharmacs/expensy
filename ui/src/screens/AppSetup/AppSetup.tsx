@@ -5,6 +5,7 @@ import { useState } from 'react';
 
 export type AppSetupFormState = {
   db_spreadsheet_id: string;
+  sheetId: string;
 };
 
 interface AppSetupProps {
@@ -13,6 +14,7 @@ interface AppSetupProps {
 
 const initialState: AppSetupFormState = {
   db_spreadsheet_id: '',
+  sheetId: ''
 };
 
 const AppSetup = (props: AppSetupProps) => {
@@ -41,6 +43,21 @@ const AppSetup = (props: AppSetupProps) => {
             setFormState((prev) => ({
               ...prev,
               db_spreadsheet_id: e.target.value,
+            }))
+          }
+        />
+        <TextField
+          fullWidth
+          name='sheetId'
+          type='text'
+          id='sheetId'
+          label='Sheet ID'
+          value={formState['sheetId']}
+          helperText='Sheet to use for App. You can get it from the  spreadsheet url. For example, https://docs.google.com/spreadsheets/d/spreadsheetid/edit?gid=<SHEET_ID>.'
+          onChange={(e) =>
+            setFormState((prev) => ({
+              ...prev,
+              sheetId: e.target.value,
             }))
           }
         />

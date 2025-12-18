@@ -40,11 +40,11 @@ const App = () => {
   } = useInsertEntry(setLoading);
 
   const setup_app = useCallback(
-    async ({ db_spreadsheet_id }: AppSetupFormState) => {
+    async ({ db_spreadsheet_id, sheetId }: AppSetupFormState) => {
       if (!logined) {
         await login();
       }
-      await setupClient(db_spreadsheet_id);
+      await setupClient(db_spreadsheet_id, sheetId);
     },
     [setupClient, logined, login]
   );

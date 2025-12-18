@@ -6,16 +6,19 @@ import { Category } from '@/screens/NewEntry/NewEntry.types';
 class GoogleSheet {
   private googleClient: GoogleClient;
   private spreadsheetId: string;
+  private sheetId: string;
   private static LIMIT: number = 10;
 
   constructor(client: GoogleClient) {
     this.googleClient = client;
     this.spreadsheetId = '';
+    this.sheetId = '';
   }
 
-  async setup(spreadsheetId: string) {
+  async setup(spreadsheetId: string, sheetId: string) {
     await this.googleClient.setup();
     this.spreadsheetId = spreadsheetId;
+    this.sheetId = sheetId;
   }
 
   async getCategories(): Promise<
@@ -123,7 +126,7 @@ class GoogleSheet {
         {
           deleteDimension: {
             range: {
-              sheetId: 0,
+              sheetId: this.sheetId,
               dimension: 'ROWS',
               startIndex,
               endIndex,

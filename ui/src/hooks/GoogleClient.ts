@@ -15,13 +15,14 @@ export const useGoogleSheet = (
   const googleSheet = useMemo(() => new GoogleSheet(client), [client]);
 
   const setup = useCallback(
-    async (spreadsheetId: string) => {
+    async (spreadsheetId: string, sheetId: string) => {
       try {
         setLoading(true);
 
-        await googleSheet.setup(spreadsheetId);
+        await googleSheet.setup(spreadsheetId, sheetId);
 
         localStorage.setItem('spid', spreadsheetId.toString());
+        localStorage.setItem('sheetid', sheetId.toString());
 
         setLoading(false);
         setIsSuccess(true);
@@ -40,18 +41,24 @@ export const useGoogleSheet = (
 
   const reset = useCallback(() => {
     localStorage.removeItem('spid');
+    localStorage.removeItem('sheetid');
     setSetupRequired(true);
   }, []);
 
   useEffect(() => {
     if (logined) {
       const spreadsheetId = localStorage.getItem('spid');
+      const sheetId = localStorage.getItem('sheetid');
 
       if (spreadsheetId === null || spreadsheetId === '') {
         return;
       }
 
-      setup(spreadsheetId);
+      if (sheetId === null || sheetId === '') {
+        return;
+      }
+
+      setup(spreadsheetId, sheetId);
     }
   }, [setup, logined]);
 
